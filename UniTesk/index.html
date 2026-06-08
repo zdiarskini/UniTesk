@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>UniTask</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header>
+<h1>UniTask</h1>
+<p>Organizador de estudos</p>
+</header>
+
+
+<div class="form">
+
+<input id="tarefaInput" placeholder="Nova tarefa">
+
+<button onclick="adicionar()">
+Adicionar
+</button>
+
+</div>
+
+
+
+<div class="kanban">
+
+
+<div class="coluna">
+
+<h2>A Fazer</h2>
+
+<div id="fazer" class="lista"></div>
+
+</div>
+
+
+
+<div class="coluna">
+
+<h2>Em Andamento</h2>
+
+<div id="andamento" class="lista"></div>
+
+</div>
+
+
+
+
+<div class="coluna">
+
+<h2>Concluído</h2>
+
+<div id="concluido" class="lista"></div>
+
+</div>
+
+
+</div>
+
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
