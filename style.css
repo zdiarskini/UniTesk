@@ -1,104 +1,110 @@
-*{
-box-sizing:border-box;
-}
-
-
 body{
-margin:0;
-font-family:Arial;
-background:#f2f4f8;
-}
-
-
-header{
-background:#273c75;
-color:white;
+font-family:Arial, sans-serif;
 text-align:center;
+background:linear-gradient(135deg,#eaf4ff,#eafff3);
+min-height:100vh;
+margin:0;
 padding:20px;
+color:#1f2937;
 }
 
+h1{
+color:#2563eb;
+font-size:40px;
+}
 
 
 .form{
-display:flex;
-justify-content:center;
-gap:10px;
 margin:25px;
 }
 
 
-
 input{
-padding:12px;
-width:300px;
+width:250px;
+border:2px solid #93c5fd;
+border-radius:10px;
+outline:none;
 }
-
 
 
 button{
-padding:12px;
-border:0;
-background:#44bd32;
+background:#22c55e;
 color:white;
-cursor:pointer;
-}
-
-
-
-.kanban{
-display:flex;
-justify-content:center;
-gap:20px;
-}
-
-
-
-.coluna{
-background:white;
-width:300px;
-min-height:400px;
-padding:15px;
+border:none;
 border-radius:10px;
-box-shadow:0 3px 10px #ccc;
+cursor:pointer;
+font-weight:bold;
+transition:.2s;
 }
 
+
+button:hover{
+background:#16a34a;
+transform:scale(1.05);
+}
+
+
+input,button{
+padding:12px;
+}
+
+
+.board{
+display:flex;
+gap:25px;
+justify-content:center;
+flex-wrap:wrap;
+}
+
+
+.col{
+background:rgba(255,255,255,.8);
+width:260px;
+min-height:350px;
+padding:15px;
+border-radius:18px;
+box-shadow:0 8px 20px #0002;
+border-top:6px solid #2563eb;
+}
+
+
+.col:nth-child(2){
+border-top-color:#2291c5;
+}
+
+
+.col:nth-child(3){
+border-top-color:#0d81c4;
+}
 
 
 h2{
-text-align:center;
+color:#334155;
 }
 
 
-
-.lista{
-min-height:320px;
-}
-
-
-
-.tarefa{
-
-background:#ddd;
-padding:12px;
-margin:10px 0;
-border-radius:8px;
+.task{
+background:#f8fafc;
+margin:12px 0;
+padding:14px;
+border-radius:12px;
+box-shadow:0 3px 8px #0002;
 cursor:grab;
-
+text-align:left;
+border-left:5px solid #2563eb;
+transition:.2s;
 }
 
 
-
-.tarefa button{
-
-background:#273c75;
-margin-top:10px;
-
+.task:hover{
+transform:translateY(-3px);
+background:#eff6ff;
 }
 
 
-
-.excluir{
-
-background:#e84118!important;
-
+.delete{
+float:right;
+color:#ef4444;
+font-weight:bold;
+cursor:pointer;
 }

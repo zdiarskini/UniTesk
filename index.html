@@ -1,74 +1,40 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>UniTask</title>
-
+<meta name="viewport" content="width=device-width">
+<title>UniTesk</title>
 <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
 
-<header>
-<h1>UniTask</h1>
-<p>Organizador de estudos</p>
-</header>
-
+<h1>UniTesk</h1>
 
 <div class="form">
-
-<input id="tarefaInput" placeholder="Nova tarefa">
-
-<button onclick="adicionar()">
-Adicionar
-</button>
-
+<input id="task" placeholder="Nova tarefa">
+<button onclick="addTask()">Adicionar</button>
 </div>
 
+<div class="board">
 
-
-<div class="kanban">
-
-
-<div class="coluna">
-
-<h2>A Fazer</h2>
-
-<div id="fazer" class="lista"></div>
-
+<div class="col" ondrop="drop(event)" ondragover="allow(event)">
+<h2>A fazer</h2>
+<div id="todo"></div>
 </div>
 
-
-
-<div class="coluna">
-
-<h2>Em Andamento</h2>
-
-<div id="andamento" class="lista"></div>
-
+<div class="col" ondrop="drop(event)" ondragover="allow(event)">
+<h2>Fazendo</h2>
+<div id="doing"></div>
 </div>
 
-
-
-
-<div class="coluna">
-
+<div class="col" ondrop="drop(event)" ondragover="allow(event)">
 <h2>Concluído</h2>
-
-<div id="concluido" class="lista"></div>
-
+<div id="done"></div>
 </div>
 
-
 </div>
-
-
 
 <script src="script.js"></script>
-
 </body>
 </html>

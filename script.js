@@ -1,17 +1,48 @@
-let tarefas =
-JSON.parse(localStorage.getItem("tarefas")) || [];
+let tarefas = JSON.parse(localStorage.getItem("tarefas")) || [];
 
 
-let arrastando;
+function salvarTarefas(){
+
+    localStorage.setItem("tarefas", JSON.stringify(tarefas));
+
+}
 
 
 
-function salvar(){
+function mostrarTarefas(){
 
-localStorage.setItem(
-"tarefas",
-JSON.stringify(tarefas)
-);
+    document.getElementById("todo").innerHTML = "";
+    document.getElementById("doing").innerHTML = "";
+    document.getElementById("done").innerHTML = "";
+
+
+    for(let i = 0; i < tarefas.length; i++){
+
+        let tarefa = tarefas[i];
+
+
+        let div = document.createElement("div");
+
+        div.className = "task";
+
+        div.draggable = true;
+
+
+        div.innerHTML = 
+        tarefa.texto +
+        " <span class='delete' onclick='excluir("+tarefa.id+")'>X</span>";
+
+
+        div.ondragstart = function(event){
+
+            event.dataTransfer.setData("id", tarefa.id);
+
+        };
+
+
+        document.getElementById(tarefa.status).appendChild(div);
+
+    }
 
 }
 
@@ -20,90 +51,34 @@ JSON.stringify(tarefas)
 
 function adicionar(){
 
-let texto =
-tarefaInput.value;
+    let campo = document.getElementById("task");
 
 
-if(!texto)return;
+    if(campo.value == ""){
+        return;
+    }
 
 
-tarefas.push({
+    let novaTarefa = {
 
-id:Date.now(),
+        id: Date.now(),
 
-texto,
+        texto: campo.value,
 
-status:"fazer"
+        status:"todo"
 
-});
-
-
-tarefaInput.value="";
+    };
 
 
-salvar();
-
-render();
-
-}
+    tarefas.push(novaTarefa);
 
 
+    campo.value = "";
 
 
-function render(){
+    salvarTarefas();
 
-
-fazer.innerHTML="";
-andamento.innerHTML="";
-concluido.innerHTML="";
-
-
-
-tarefas.forEach(t=>{
-
-
-let div =
-document.createElement("div");
-
-
-div.className="tarefa";
-
-div.draggable=true;
-
-
-div.ondragstart=()=>{
-
-arrastando=t.id;
-
-};
-
-
-
-div.innerHTML=
-
-`
-${t.texto}
-
-<br>
-
-<button onclick="excluir(${t.id})">
-Excluir
-</button>
-
-`;
-
-
-
-document
-.getElementById(t.status)
-.appendChild(div);
-
-
-});
-
-
-
-ativarDrop();
+    mostrarTarefas();
 
 }
 
@@ -111,45 +86,42 @@ ativarDrop();
 
 
 
-function ativarDrop(){
+function permitirSoltar(event){
 
-
-document
-.querySelectorAll(".lista")
-.forEach(lista=>{
-
-
-lista.ondragover=e=>e.preventDefault();
-
-
-
-lista.ondrop=()=>{
-
-
-let tarefa =
-tarefas.find(
-t=>t.id==arrastando
-);
-
-
-
-tarefa.status =
-lista.id;
-
-
-salvar();
-
-render();
-
-
-};
-
-
-});
-
+    event.preventDefault();
 
 }
 
+
+
+
+
+function soltar(event){
+
+
+    let id = event.dataTransfer.getData("id");
+
+
+    for(let i = 0; i < tarefas.length; i++){
+
+
+        if(tarefas[i].id == id){
+
+
+            tarefas[i].status =
+            event.currentTarget.id;
+
+
+        }
+
+    }
+
+
+    salvarTarefas();
+
+    mostrarTarefas();
+
+}
 
 
 
@@ -158,18 +130,30 @@ render();
 function excluir(id){
 
 
-tarefas =
-tarefas.filter(
-t=>t.id!=id
-);
+    let novaLista = [];
 
 
-salvar();
+    for(let i = 0; i < tarefas.length; i++){
 
-render();
+
+        if(tarefas[i].id != id){
+
+            novaLista.push(tarefas[i]);
+
+        }
+
+    }
+
+
+    tarefas = novaLista;
+
+
+    salvarTarefas();
+
+    mostrarTarefas();
 
 }
 
 
 
-render();
+mostrarTarefas();
