@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <title>UniTesk</title>
-
 <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
@@ -15,40 +12,29 @@
 <h1>UniTesk</h1>
 
 <div class="form">
-
 <input id="task" placeholder="Nova tarefa">
-
 <button onclick="addTask()">Adicionar</button>
-
 </div>
-
 
 <div class="board">
 
-
-<div class="col">
+<div class="col" ondrop="drop(event)" ondragover="allow(event)">
 <h2>A fazer</h2>
-<div id="todo" ondrop="drop(event)" ondragover="allow(event)"></div>
+<div id="todo"></div>
 </div>
 
-
-<div class="col">
+<div class="col" ondrop="drop(event)" ondragover="allow(event)">
 <h2>Fazendo</h2>
-<div id="doing" ondrop="drop(event)" ondragover="allow(event)"></div>
+<div id="doing"></div>
 </div>
 
-
-<div class="col">
+<div class="col" ondrop="drop(event)" ondragover="allow(event)">
 <h2>Concluído</h2>
-<div id="done" ondrop="drop(event)" ondragover="allow(event)"></div>
+<div id="done"></div>
 </div>
 
-
 </div>
-
 
 <script src="script.js"></script>
-
 </body>
-
 </html>

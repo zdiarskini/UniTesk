@@ -1,107 +1,83 @@
-let tarefas = JSON.parse(localStorage.getItem("tarefas")) || [];
+let tasks=JSON.parse(localStorage.getItem("tasks"))||[];
 
-
-function salvar(){
-    localStorage.setItem("tarefas", JSON.stringify(tarefas));
+function save(){
+localStorage.setItem("tasks",JSON.stringify(tasks));
 }
 
+function show(){
 
-function mostrar(){
+["todo","doing","done"].forEach(x=>{
+document.getElementById(x).innerHTML="";
+});
 
-    todo.innerHTML = "";
-    doing.innerHTML = "";
-    done.innerHTML = "";
+tasks.forEach(t=>{
 
-    tarefas.forEach(tarefa => {
+let d=document.createElement("div");
 
-        let div = document.createElement("div");
+d.className="task";
+d.draggable=true;
+d.id=t.id;
 
-        div.className = "task";
-        div.draggable = true;
+d.innerHTML=
+t.text+
+` <span class="delete" onclick="del(${t.id})">X</span>`;
 
-        div.innerHTML = `
-        ${tarefa.texto}
-        <span class="delete" onclick="excluir(${tarefa.id})">X</span>
-        `;
+d.ondragstart=e=>e.dataTransfer.setData("id",t.id);
 
+document.getElementById(t.status).appendChild(d);
 
-        div.ondragstart = e => {
-            e.dataTransfer.setData("id", tarefa.id);
-        };
-
-
-        document.getElementById(tarefa.status).appendChild(div);
-
-    });
+});
 
 }
-
 
 
 function addTask(){
 
-    let campo = document.getElementById("task");
+let input=document.getElementById("task");
 
-    if(campo.value == "") return;
+if(!input.value)return;
 
+tasks.push({
+id:Date.now(),
+text:input.value,
+status:"todo"
+});
 
-    tarefas.push({
+input.value="";
 
-        id: Date.now(),
-
-        texto: campo.value,
-
-        status:"todo"
-
-    });
-
-
-    campo.value="";
-
-    salvar();
-    mostrar();
+save();
+show();
 
 }
-
-
-
-
-function allow(e){
-
-    e.preventDefault();
-
-}
-
 
 
 function drop(e){
 
-    let id = e.dataTransfer.getData("id");
+let id=e.dataTransfer.getData("id");
 
+let task=tasks.find(x=>x.id==id);
 
-    let tarefa = tarefas.find(t => t.id == id);
+task.status=e.currentTarget.children[1].id;
 
-
-    tarefa.status = e.currentTarget.children[1].id;
-
-
-    salvar();
-    mostrar();
+save();
+show();
 
 }
 
 
+function allow(e){
+e.preventDefault();
+}
 
 
-function excluir(id){
+function del(id){
 
-    tarefas = tarefas.filter(t => t.id != id);
+tasks=tasks.filter(x=>x.id!=id);
 
-    salvar();
-    mostrar();
+save();
+show();
 
 }
 
 
-
-mostrar();
+show();
