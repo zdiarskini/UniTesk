@@ -1,65 +1,51 @@
 let tarefas = JSON.parse(localStorage.getItem("tarefas")) || [];
 
 
-function salvarTarefas(){
-
+function salvar(){
     localStorage.setItem("tarefas", JSON.stringify(tarefas));
-
 }
 
 
+function mostrar(){
 
-function mostrarTarefas(){
+    todo.innerHTML = "";
+    doing.innerHTML = "";
+    done.innerHTML = "";
 
-    document.getElementById("todo").innerHTML = "";
-    document.getElementById("doing").innerHTML = "";
-    document.getElementById("done").innerHTML = "";
-
-
-    for(let i = 0; i < tarefas.length; i++){
-
-        let tarefa = tarefas[i];
-
+    tarefas.forEach(tarefa => {
 
         let div = document.createElement("div");
 
         div.className = "task";
-
         div.draggable = true;
 
+        div.innerHTML = `
+        ${tarefa.texto}
+        <span class="delete" onclick="excluir(${tarefa.id})">X</span>
+        `;
 
-        div.innerHTML = 
-        tarefa.texto +
-        " <span class='delete' onclick='excluir("+tarefa.id+")'>X</span>";
 
-
-        div.ondragstart = function(event){
-
-            event.dataTransfer.setData("id", tarefa.id);
-
+        div.ondragstart = e => {
+            e.dataTransfer.setData("id", tarefa.id);
         };
 
 
         document.getElementById(tarefa.status).appendChild(div);
 
-    }
+    });
 
 }
 
 
 
-
-function adicionar(){
+function addTask(){
 
     let campo = document.getElementById("task");
 
-
-    if(campo.value == ""){
-        return;
-    }
+    if(campo.value == "") return;
 
 
-    let novaTarefa = {
+    tarefas.push({
 
         id: Date.now(),
 
@@ -67,93 +53,55 @@ function adicionar(){
 
         status:"todo"
 
-    };
+    });
 
 
-    tarefas.push(novaTarefa);
+    campo.value="";
 
-
-    campo.value = "";
-
-
-    salvarTarefas();
-
-    mostrarTarefas();
+    salvar();
+    mostrar();
 
 }
 
 
 
 
+function allow(e){
 
-function permitirSoltar(event){
-
-    event.preventDefault();
-
-}
-
-
-
-
-
-function soltar(event){
-
-
-    let id = event.dataTransfer.getData("id");
-
-
-    for(let i = 0; i < tarefas.length; i++){
-
-
-        if(tarefas[i].id == id){
-
-
-            tarefas[i].status =
-            event.currentTarget.id;
-
-
-        }
-
-    }
-
-
-    salvarTarefas();
-
-    mostrarTarefas();
+    e.preventDefault();
 
 }
 
+
+
+function drop(e){
+
+    let id = e.dataTransfer.getData("id");
+
+
+    let tarefa = tarefas.find(t => t.id == id);
+
+
+    tarefa.status = e.currentTarget.children[1].id;
+
+
+    salvar();
+    mostrar();
+
+}
 
 
 
 
 function excluir(id){
 
+    tarefas = tarefas.filter(t => t.id != id);
 
-    let novaLista = [];
-
-
-    for(let i = 0; i < tarefas.length; i++){
-
-
-        if(tarefas[i].id != id){
-
-            novaLista.push(tarefas[i]);
-
-        }
-
-    }
-
-
-    tarefas = novaLista;
-
-
-    salvarTarefas();
-
-    mostrarTarefas();
+    salvar();
+    mostrar();
 
 }
 
 
 
-mostrarTarefas();
+mostrar();
